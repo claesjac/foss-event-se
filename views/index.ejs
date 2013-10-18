@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>FOSS events och annat intressant</title>
+	<meta charset="UTF-8">
+    <link rel="stylesheet" href="/stylesheets/style.css"/>
+	<link rel="stylesheet" href="//code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
+	<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/fullcalendar/1.6.4/fullcalendar.css"></script>
+	<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+	<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
+	<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/fullcalendar/1.6.4/fullcalendar.min.js"></script>
+	<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.2.1/moment.min.js"></script>	
+	<script>
+		$(document).ready(function() {
+	    	// page is now ready, initialize the calendar...
+	    	$("#calendar").fullCalendar({
+				events: "/calendar",
+	        	// put your options and callbacks here
+				eventClick: function(calEvent, jsEvent, view) {
+					displayEvent(calEvent);
+					return false;
+				},
+	    	});
+		});
+		
+		function createEvent() {
+			$("#create-event").dialog({
+				modal: true
+			});
+			
+			return true;
+		}
+		
+		function displayEvent(calEvent) {
+			$("#event-desc").text(calEvent.description);
+
+			fmt = calEvent.allDay ? "YYYY-MM-DD" : "YYYY-MM-DD HH-mm ZZ";
+			$("#event-time").text(
+				moment(calEvent.start).format(fmt) + " - " + moment(calEvent.end).format(fmt)
+			);
+
+			if (calEvent.url) {
+				$("#event-url").attr("href", calEvent.url);
+				$("#event-url").text(calEvent.url);
+				$("#event-url-p").show();
+			}
+			else {
+				$("#event-url-p").hide();
+			}
+			
+			$("#event-title").text(calEvent.title);
+			$("#event-details").dialog({
+				title: calEvent.title,
+				modal: true,
+			});
+		}
+	</script>
+  </head>
+  <body>
+	<h2>FOSS events i din n&auml;rhet | <a href="javascript:createEvent();">tipsa</a></h2>
+	<div id="calendar"></div>
+	<div id="event-details" title="">
+	  <p id="event-time"></p>
+	  <p id="event-url-p"><a id="event-url" target="_blank" href="#"></a></p>
+	  <p id="event-desc"></p>
+	</div>
+	<div id="create-event" title="Skapa event">
+		<p id="create-event-help">F&ouml;r att skapa ett event fyll i en e-post (verifieras ej) och en nyckel (f&ouml;rslagsvis unik) du vill anv&auml;nda f&ouml;r att uppdatera eventet.</p>
+		<div style="text-align: center">
+			<form id="create-form" method="post" action="/create">
+				<div>
+					<label for="email">e-post</label>
+					<input type="email" name="email"/></input>
+				</div>
+				<div>
+					<label for="keypass">nyckel</label>
+					<input type="password" name="keypass"/></input>
+				</div>
+				<div style="text-align: right; padding-top: 4px">
+					<input type="submit" value="OK"></input>
+				</div>
+			</form>
+		</div>
+	</div>
+	
+</html>

@@ -1,5 +1,5 @@
+DROP TABLE IF EXISTS queued_events CASCADE;
 DROP TABLE IF EXISTS events CASCADE;
-DROP SEQUENCE IF EXISTS event_id_seq;
 
 DROP TABLE IF EXISTS users CASCADE;
 DROP SEQUENCE IF EXISTS user_id_seq;
@@ -10,12 +10,22 @@ CREATE TABLE users (
     email TEXT NOT NULL
 );
 
-CREATE SEQUENCE event_id_seq;
 CREATE TABLE events (
-    event_id    INTEGER PRIMARY KEY NOT NULL DEFAULT nextval('event_id_seq'),
-    event_uuid  UUID NOT NULL DEFAULT uuid_generate_v4(),
+    event_id    UUID NOT NULL,
     user_id     INTEGER NOT NULL REFERENCES users(user_id),
     name        TEXT NOT NULL,
     url         TEXT,
-    description TEXT
+    description TEXT,
+    start_date  DATE,
+    end_date    DATE,
+    start_time  TIME WITHOUT TIME ZONE,
+    end_time    TIME WITHOUT TIME ZONE,
+    attributes  JSON,
+    created     TIMESTAMP WITHOUT TIME ZONE DEFAULT NOW(),
+    updated     TIMESTAMP WITHOUT TIME ZONE,
+    keypass     TEXT NOT NULL
+);
+
+CREATE TABLE queued_events (
+    LIKE events INCLUDING ALL
 );

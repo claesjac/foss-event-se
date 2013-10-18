@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+  <head>
+	<meta charset="UTF-8">
+    <title>FOSS events och annat intressant</title>
+    <link rel="stylesheet" href="/stylesheets/style.css"/>
+	<link rel="stylesheet" href="//code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
+	<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+	<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
+  </head>
+  <body>
+	<h2>Uppdatera event: <%= name %></h2>
+	<div id="content">		
+		<form action="/update/<%= event_id %>" method="post" id="update-event">
+			<div>
+				<label for="name">Namn:</label>
+				<input class="event-field" type="text" name="name" placeholder="Name..." value="<%= name || ''%>"></input>
+			</div>
+
+			<div>
+				<label for="name">URL:</label>
+				<input class="event-field" type="url" name="url" placeholder="Url..." value="<%= url || ''%>"></input>
+			</div>
+
+			<div>
+				<label for="name">Beskrivning:</label>
+				<textarea class="event-field" name="description" placeholder="Beskrivning..."><%= description || '' %></textarea>
+			</div>
+			
+			<div>
+				<label for="start_date">Start:</label>
+				<input type="date" name="start_date" placeholder="Startdatum..." value="<%= start_date || '' %>"></input>
+				<input type="time" name="start_time" placeholder="Starttid..." value="<%= start_time || '' %>"></input>
+				<div class="event-help">För ett heldagsevent lämna starttid tom</div>
+			</div>
+
+			<div>
+				<label for="end_date">Start:</label>
+				<input type="date" name="end_date" placeholder="Slutdatum..." value="<%= end_date || '' %>"></input>
+				<input type="time" name="end_time" placeholder="Sluttid..." value="<%= end_time || '' %>"></input>
+				<div class="event-help">För ett heldagsevent lämna sluttid tom</div>
+			</div>
+			
+			<div>
+				<label for="name">Extra attribut:</label>
+				<textarea class="event-field" name="attributes" placeholder="JSON..."><%= attributes || '' %></textarea>
+				<div class="event-help">
+					<p>
+						Detta fält skall vara ett JSON objekt med extra "attribut" t.ex. max antal deltagare, 
+						föreläsare, tuits eller annat.
+					<p>
+					<p>
+						Rendering kommer ske i asciibetisk ordning av nycklarna. Om värdet är en vanlig sträng 
+						kommer denna renderas som nyckel, radbrytning, värde". Är värdet en lista kommer det istället bli en 
+						punktlista med respektive värde som text.
+					</p>
+					<p>T.ex. <code>
+{"Max deltagare": 100, 
+ "Talare": [ "Bengt", "Glenn", "Örjan"]
+}</code> skulle renderas i stil med:</p>
+					<p><b>Max deltagare:</b><br/>100</p>
+					<p><b>Talare:</b><br/><ul style="padding-left: 20px"><li>Bength</li><li>Glenn</li><li>Örjan</li></ul></p>
+				</div>			
+			</div>
+			
+			<div>
+				<label for="submit"></label>
+				<input type="hidden" name="action" value="save"></input>
+				<input type="submit" name="submit" value="Spara"></input>
+			</div>
+			
+			
+		</form>
+	</div>
+</html>

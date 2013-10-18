@@ -1,0 +1,48 @@
+body {
+  padding: 50px;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+
+a {
+  color: #00B7FF;
+}
+
+#create-event {
+    display: none;
+    text-align: justify; 
+}
+
+#create-event-help {
+    font-style: italic;
+}
+
+#event-details {
+    font-size: 9pt;
+    display: none;
+}
+
+#event-title {
+    
+}
+#event-time {
+    font-style: italic;
+}
+
+#update-event label {
+    color: red;
+    display: inline-block;
+    width: 100px;
+    vertical-align: top;
+}
+
+#update-event .event-field {
+    width: 400px;
+}
+
+#update-event .event-help {
+    margin-left: 105px;
+    font-style: italic;
+    font-size: 9pt;
+    margin-bottom: 10px;
+    width: 400px;
+}
