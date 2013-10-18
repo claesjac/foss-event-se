@@ -86,7 +86,7 @@ exports.update = function(req, res) {
         
         global.pg.query(
             "SELECT update_event($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)", 
-            [ email, keypass, event_id, name, description, url, start_date, start_time, end_date, end_time, attributes ],
+            [ email, keypass, event_id, name, description, url, start_date, end_date, start_time, end_time, attributes ],
             function (err, result) {
                 if (err) {
                     res.render("error", { message: err });

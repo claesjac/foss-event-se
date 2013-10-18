@@ -13,7 +13,7 @@ CREATE TABLE users (
 CREATE TABLE events (
     event_id    UUID NOT NULL,
     user_id     INTEGER NOT NULL REFERENCES users(user_id),
-    name        TEXT NOT NULL,
+    name        TEXT,
     url         TEXT,
     description TEXT,
     start_date  DATE,
