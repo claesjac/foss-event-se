@@ -24,7 +24,7 @@
 
 			<div>
 				<label for="name">Beskrivning:</label>
-				<textarea class="event-field" name="description" placeholder="Beskrivning..."><%= description || '' %></textarea>
+				<textarea class="event-field" name="description" rows="5" placeholder="Beskrivning..."><%= description || '' %></textarea>
 			</div>
 			
 			<div>
@@ -43,7 +43,7 @@
 			
 			<div>
 				<label for="name">Extra attribut:</label>
-				<textarea class="event-field" name="attributes" placeholder="JSON..."><%= attributes || '' %></textarea>
+				<textarea class="event-field" name="attributes" rows="5" placeholder="JSON..."><%= attributes || '' %></textarea>
 				<div class="event-help">
 					<p>
 						Detta fält skall vara ett JSON objekt med extra "attribut" t.ex. max antal deltagare, 
