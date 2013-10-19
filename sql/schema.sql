@@ -1,9 +1,3 @@
-DROP TABLE IF EXISTS queued_events CASCADE;
-DROP TABLE IF EXISTS events CASCADE;
-
-DROP TABLE IF EXISTS users CASCADE;
-DROP SEQUENCE IF EXISTS user_id_seq;
-
 CREATE SEQUENCE user_id_seq;
 CREATE TABLE users (
     user_id INTEGER PRIMARY KEY NOT NULL DEFAULT nextval('user_id_seq'),
