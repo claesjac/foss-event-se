@@ -18,8 +18,6 @@ ORDER BY start_date, start_time ASC",
         events = [];
         for (i = 0; i < result.rowCount; i++) {
             row = result.rows[i];
-
-            console.log(row);
             
             all_day = !row.start_time && !row.end_time ? true : false;
             
