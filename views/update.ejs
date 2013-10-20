@@ -4,12 +4,42 @@
 	<meta charset="UTF-8">
     <title>FOSS events och annat intressant</title>
     <link rel="stylesheet" href="/stylesheets/style.css"/>
-	<link rel="stylesheet" href="//code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
-	<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
-	<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
+	<link rel="stylesheet" href="/stylesheets/jquery-ui-1.10.3.custom.min.css" />
+	<link rel="stylesheet" href="/stylesheets/fullcalendar.css"></script>
+	<script src="http://maps.google.com/maps/api/js?sensor=false"></script>
+	<script type="text/javascript" src="/javascripts/jquery.min.js"></script>
+	<script type="text/javascript" src="/javascripts/jquery-ui-1.10.3.custom.min.js"></script>
+	<script type="text/javascript" src="/javascripts/jquery.ui.addresspicker.js"></script>
+	<script type="text/javascript" src="/javascripts/fullcalendar.min.js"></script>
+	<script type="text/javascript" src="/javascripts/moment.min.js"></script>	
+	<script>
+	$(document).ready(function() {
+			lng = <%= lng || 59.329444 %>;
+			lat = <%= lat || 18.068611 %>;
+			var addresspicker = $( "#addresspicker" ).addresspicker({
+				elements: {
+					map: "#map", 
+					lat: "#lat",
+					lng: "#lng",
+				},
+				mapOptions: {
+					zoom: 10,
+					center: new google.maps.LatLng(lng, lat),
+					scrollwheel: false,
+					mapTypeId: google.maps.MapTypeId.ROADMAP
+				 },
+				reverseGeocode: true,
+			});	
+			
+			var gmarker = addresspicker.addresspicker( "marker");
+			gmarker.setVisible(true);
+			addresspicker.addresspicker( "updatePosition");		
+	});
+	
+	</script>
   </head>
   <body>
-	<h2>Uppdatera event: <%= name %></h2>
+	<h2>Uppdatera event: <%= name || '' %></h2>
 	<div id="content">		
 		<form action="/update/<%= event_id %>" method="post" id="update-event">
 			<div>
@@ -35,11 +65,23 @@
 			</div>
 
 			<div>
-				<label for="end_date">Start:</label>
+				<label for="end_date">Slut:</label>
 				<input type="date" name="end_date" placeholder="Slutdatum..." value="<%= end_date || '' %>"></input>
 				<input type="time" name="end_time" placeholder="Sluttid..." value="<%= end_time || '' %>"></input>
 				<div class="event-help">För ett heldagsevent lämna sluttid tom</div>
 			</div>
+
+			<div>
+				<label for="addresspicker">Plats:</label>
+				<input class="event-field" type="text" name="address" id="addresspicker" value="<%= address || ''%>"></input>
+				<div class="event-help">Sidan försöker automatiskt slå upp addresser och fylla i koordinaterna nedan</div>
+			</div>
+			<div>
+				<label for="lon">Koordinater:</label>
+				<input name="lat" type="text" id="lat" size="25" value="<%= lat || ''%>"/>(lat)
+				<input name="lng" type="text" id="lng" size="25" value="<%= lng || ''%>"/>(lon)
+			</div>
+			<div id="map"></div>
 			
 			<div>
 				<label for="name">Extra attribut:</label>

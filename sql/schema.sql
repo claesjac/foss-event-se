@@ -14,6 +14,8 @@ CREATE TABLE events (
     end_date    DATE,
     start_time  TIME WITHOUT TIME ZONE,
     end_time    TIME WITHOUT TIME ZONE,
+    address     TEXT,
+    location    TEXT,
     attributes  JSON,
     created     TIMESTAMP WITHOUT TIME ZONE DEFAULT NOW(),
     updated     TIMESTAMP WITHOUT TIME ZONE,

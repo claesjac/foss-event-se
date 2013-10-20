@@ -22,6 +22,7 @@ $$ LANGUAGE plpgsql;
 CREATE OR REPLACE FUNCTION update_event(
     _email TEXT, _keypass TEXT,
     _event_id UUID, _name TEXT, _description TEXT, _url TEXT,
+    _address TEXT, _location TEXT,
     _start_date DATE, _end_date DATE, _start_time TIME WITHOUT TIME ZONE, _end_time TIME WITHOUT TIME ZONE, 
     _attributes JSON
 ) RETURNS VOID AS $$
@@ -66,6 +67,7 @@ BEGIN
     UPDATE queued_events 
        SET name = _name, description = _description, 
            url = _url,
+           address = _address, location = _location,
            start_date = _start_date, end_date = _end_date,
            start_time = _start_time, end_time = _end_time,
            attributes = _attributes,

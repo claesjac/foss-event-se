@@ -26,7 +26,7 @@ exports.create = function(req, res) {
 
 function render_update_page(event_id, req, res) {
     global.pg.query("\
-SELECT event_id, name, description, url, start_date::text, end_date::text, start_time::text, end_time::text, attributes::text \
+SELECT event_id, name, description, url, address, location, start_date::text, end_date::text, start_time::text, end_time::text, attributes::text \
   FROM queued_events \
  WHERE event_id = $1 \
 ", [event_id], function(err, result) {
@@ -40,6 +40,13 @@ SELECT event_id, name, description, url, start_date::text, end_date::text, start
             return;        
         }
         
+        lat = lng = null;
+        if (result.rows[0].location) {
+            a = result.rows[0].location.split(", ");
+            lat = a[0];
+            lng = a[1];
+        }
+        
         res.render("update", {
             event_id: event_id,
             name: result.rows[0].name,
@@ -49,7 +56,10 @@ SELECT event_id, name, description, url, start_date::text, end_date::text, start
             start_time: result.rows[0].start_time,
             end_date: result.rows[0].end_date,
             end_time: result.rows[0].end_time,
-            attributes: result.rows[0].attributes
+            attributes: result.rows[0].attributes,
+            address: result.rows[0].address,
+            lat: lat,
+            lng: lng,
         });
     });
 }
@@ -81,12 +91,17 @@ exports.update = function(req, res) {
         start_date = req.body.start_date || null;
         start_time = req.body.start_time || null;
         end_date = req.body.end_date || null;
-        end_time = req.body.start_time || null;
+        end_time = req.body.end_time || null;
         attributes = req.body.attributes || null;   
+        address = req.body.address || null;
+        lat = req.body.lat || null;
+        lng = req.body.lng || null;
+        
+        location = lat && lng ? lat + ", " + lng : null;
         
         global.pg.query(
-            "SELECT update_event($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)", 
-            [ email, keypass, event_id, name, description, url, start_date, end_date, start_time, end_time, attributes ],
+            "SELECT update_event($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13)", 
+            [ email, keypass, event_id, name, description, url, address, location, start_date, end_date, start_time, end_time, attributes ],
             function (err, result) {
                 if (err) {
                     res.render("error", { message: err });

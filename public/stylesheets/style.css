@@ -46,3 +46,10 @@ a {
     margin-bottom: 10px;
     width: 400px;
 }
+
+#map {
+  border: 1px solid #DDD; 
+  width:400px;
+  height: 400px;
+  margin: 10px 0 10px 105px;
+}
