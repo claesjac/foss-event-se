@@ -21,13 +21,23 @@ ORDER BY start_date, start_time ASC",
             
             all_day = !row.start_time && !row.end_time ? true : false;
             
+            start = row.start_date;
+            if (row.start_time) {
+                start += "T" + row.start_time;
+            }
+
+            end = row.end_date;
+            if (row.end_time) {
+                end += "T" + row.end_time;
+            }
+            
             event = {
                 "id": row.event_id,
                 "title": row.name,
                 "description": row.description,
                 "allDay": all_day,
-                "start": row.start_date,
-                "end": row.end_date,
+                "start": start,
+                "end": end,
                 "url": row.url,
             };
                         

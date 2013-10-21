@@ -14,12 +14,28 @@
 		$(document).ready(function() {
 	    	// page is now ready, initialize the calendar...
 	    	$("#calendar").fullCalendar({
+				header: {
+				    left:   "title",
+				    center: "month, basicWeek, basicDay, agendaWeek, agendaDay",
+				    right:  "today prev,next"
+				},
 				events: "/calendar",
+				theme: true,
+				firstDay: 1,
+				weekNumbers: true,
 	        	// put your options and callbacks here
 				eventClick: function(calEvent, jsEvent, view) {
 					displayEvent(calEvent);
 					return false;
 				},
+				timeFormat: {
+				    // for agendaWeek and agendaDay
+				    agenda: 'h:mm{ - h:mm}', // 5:00 - 6:30
+					basic: 'h:mm{ - h:mm}', // 5:00 - 6:30
+
+				    // for all other views
+				    '': ''            // 7p
+				}
 	    	});
 		});
 		
@@ -32,7 +48,7 @@
 		}
 		
 		function displayEvent(calEvent) {
-			$("#event-desc").text(calEvent.description);
+			$("#event-desc").text(calEvent.description || "");
 
 			fmt = calEvent.allDay ? "YYYY-MM-DD" : "YYYY-MM-DD HH-mm ZZ";
 			
