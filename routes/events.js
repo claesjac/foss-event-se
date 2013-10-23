@@ -39,27 +39,32 @@ SELECT event_id, name, description, url, address, location, start_date::text, en
             res.render("error", {message: "No event with id " + event_id});
             return;        
         }
-        
-        lat = lng = null;
-        if (result.rows[0].location) {
-            a = result.rows[0].location.split(", ");
-            lat = a[0];
-            lng = a[1];
+
+        if (result.rowCount > 1) {
+            res.render("error", {message: "Too many rows returned for id " + event_id});
+            return;        
         }
+        
+        evt = result.rows[0];
+        console.log(evt);
+        
+        location = evt.location ? evt.location.match(/^\((-?\d+\.\d+)\s*,\s*(-?\d+\.\d+)\)$/) : ["", "",""];
+        
+        console.log(location);
         
         res.render("update", {
             event_id: event_id,
-            name: result.rows[0].name,
-            description: result.rows[0].description,
-            url: result.rows[0].url,
-            start_date: result.rows[0].start_date,
-            start_time: result.rows[0].start_time,
-            end_date: result.rows[0].end_date,
-            end_time: result.rows[0].end_time,
-            attributes: result.rows[0].attributes,
-            address: result.rows[0].address,
-            lat: lat,
-            lng: lng,
+            name: evt.name,
+            description: evt.description,
+            url: evt.url,
+            start_date: evt.start_date,
+            start_time: evt.start_time,
+            end_date: evt.end_date,
+            end_time: evt.end_time,
+            attributes: evt.attributes,
+            address: evt.address,
+            lat: location[1],
+            lng: location[2],
         });
     });
 }

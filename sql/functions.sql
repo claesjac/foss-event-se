@@ -22,7 +22,7 @@ $$ LANGUAGE plpgsql;
 CREATE OR REPLACE FUNCTION update_event(
     _email TEXT, _keypass TEXT,
     _event_id UUID, _name TEXT, _description TEXT, _url TEXT,
-    _address TEXT, _location TEXT,
+    _address TEXT, _location POINT,
     _start_date DATE, _end_date DATE, _start_time TIME WITHOUT TIME ZONE, _end_time TIME WITHOUT TIME ZONE, 
     _attributes JSON
 ) RETURNS VOID AS $$
