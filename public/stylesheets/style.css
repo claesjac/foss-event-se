@@ -53,3 +53,20 @@ a {
   height: 400px;
   margin: 10px 0 10px 105px;
 }
+
+#column1 {
+    float: left;
+    width: 450px;
+}
+
+#column2 {
+    float: right;
+    width: 320px;
+}
+
+#map-canvas {
+    width: 300px;
+    height: 300px;
+    margin: 0px;
+    padding: 0px
+}
